@@ -14,27 +14,15 @@
     <script src="http://d3js.org/topojson.v0.min.js"></script>
   </head>
   <body>
-    <script type="text/javascript">
-      var width = 900;
-      var height = 600;
-
-      var projection = d3.geo.mercator();
+    d3.json("http://furanga.carto.com/api/v2/sql?q=SELECT * FROM gobernadores_mexico_xls 1 WHERE the_geom IS NOT NULL&format=geojson&dp=5", function(collection) {
+svg.select("#partido")
+.selectAll("path")
+.data(collection.features)
+.enter().append("path")
+.attr("fill", "violet")
+.attr("d", path.projection(xy));
+});
       
-      var svg = d3.select("body").append("svg")
-          .attr("width", width)
-          .attr("height", height);
-      var path = d3.geo.path()
-          .projection(projection);
-      var g = svg.append("g");
-      
-      d3.json("world-110m2.json", function(error, topology) {
-          g.selectAll("path")
-            .data(topojson.object(topology, topology.objects.countries)
-                .geometries)
-          .enter()
-            .append("path")
-            .attr("d", path)
-      });
     </script>
   </body>
 </html>
